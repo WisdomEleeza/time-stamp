@@ -28,13 +28,15 @@ app.get("/api/:date?", function (req, res) {
   if (!inputDate) {
     // Handle empty date parameter
     const currentTimestamp = Date.now();
-    response = { unix: currentTimestamp, utc: new Date(currentTimestamp).toUTCString() };
+    const currentUTC = new Date(currentTimestamp);
+    response = { unix: currentTimestamp, utc: currentUTC.toUTCString() };
   } else {
     // Check if the input date is valid
     const timestamp = new Date(inputDate).getTime();
 
     if (!isNaN(timestamp)) {
-      response = { unix: timestamp, utc: new Date(timestamp).toUTCString() };
+      const inputUTC = new Date(timestamp);
+      response = { unix: timestamp, utc: inputUTC.toUTCString() };
     } else {
       response = { error: "Invalid Date" };
     }
@@ -42,6 +44,7 @@ app.get("/api/:date?", function (req, res) {
 
   res.json(response);
 });
+
 
 
 
