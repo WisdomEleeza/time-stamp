@@ -18,25 +18,25 @@ app.get("/", function (req, res) {
   res.sendFile(__dirname + '/views/index.html');
 });
 
+const isValidData = (data) => data.toUTCString === "Invalid Data"
 
 // your first API endpoint... 
 app.get("/api/:date?", function (req, res) {
-  const inputDate = req.params.date;
+  const data = new Date(req.params.date);
   
-  if (inputDate) {
-    // Handle empty date parameter
-    const currentTimestamp = Date.now();
-    return res.json({ unix: currentTimestamp, utc: new Date(currentTimestamp).toUTCString() });
-  } else {
-    // Check if the input date is a valid date or a valid timestamp
-    const timestamp = new Date(inputDate).getTime();
-
-    if (!isNaN(timestamp)) {
-     return res.json({ unix: timestamp, utc: new Date(timestamp).toUTCString() });
-    } else {
-      res.json({ error: "Invalid Date" });
-    }
+  if(isValidData(data)){
+    data = new Date(req.params.date)
   }
+
+  if(isValidData(data)) {
+    res.json({ error: "error" })
+    return
+  }
+
+  res.json({
+    unix: date.getTime(),
+    utc: date.toUTCString()
+  })
 });
 
 
