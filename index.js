@@ -23,16 +23,16 @@ app.get("/", function (req, res) {
 app.get("/api/:date?", function (req, res) {
   const inputDate = req.params.date;
   
-  if (!inputDate) {
+  if (inputDate) {
     // Handle empty date parameter
     const currentTimestamp = Date.now();
-    res.json({ unix: currentTimestamp, utc: new Date(currentTimestamp).toUTCString() });
+    return res.json({ unix: currentTimestamp, utc: new Date(currentTimestamp).toUTCString() });
   } else {
     // Check if the input date is a valid date or a valid timestamp
     const timestamp = new Date(inputDate).getTime();
 
     if (!isNaN(timestamp)) {
-      res.json({ unix: timestamp, utc: new Date(timestamp).toUTCString() });
+     return res.json({ unix: timestamp, utc: new Date(timestamp).toUTCString() });
     } else {
       res.json({ error: "Invalid Date" });
     }
