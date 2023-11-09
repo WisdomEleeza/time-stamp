@@ -18,9 +18,9 @@ app.get("/", function (req, res) {
   res.sendFile(__dirname + '/views/index.html');
 });
 
-function isValidDate(date) {
-  return !isNaN(date);
-}
+// function isValidDate(date) {
+//   return !isNaN(date);
+// }
 
 // your first API endpoint... 
 app.get('/api/:date?', function (req, res) {
@@ -42,36 +42,12 @@ app.get('/api/:date?', function (req, res) {
     }
   }
 
-  if (!date) {
-    res.json({ error: "Invalid Date" });
-  }
+  // if (!date) {
+  //   res.json({ error: "Invalid Date" });
+  // }
 });
 
 
-  // if (!inputDate) {
-  //   // Handle requests with an empty date parameter
-  //   const currentDate = new Date();
-  //   res.json({
-  //     unix: currentDate.getTime(),
-  //     utc: currentDate.toUTCString(),
-  //   });
-  // } else {
-  //   const date = new Date(inputDate);
-
-  //   if (isValidDate(date)) {
-  //     res.json({
-  //       unix: date.getTime(),
-  //       utc: date.toUTCString(),
-  //     });
-  //   } else {
-  //     res.json({ error: "Invalid Date" });
-  //   }
-  // }
-// });
-
-// app.get('/api/1451001600000', (req, res) => {
-//   return res.json({ unix: 1451001600000, utc: "Fri, 25 Dec 2015 00:00:00 GMT" })
-// })
 
 
 
