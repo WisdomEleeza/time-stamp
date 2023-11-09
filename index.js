@@ -33,9 +33,13 @@ app.get('/api/:date?', function (req, res) {
     const date = new Date(parseInt(inputDate));
 
     if (!isNaN(date)) {
+       const formattedUTC = date.toISOString()
+        .replace(/T/, ' ')
+        .replace(/\.\d{3}Z/, ' GMT');
+        
       res.json({
         unix: date.getTime(),
-        utc: date.toUTCString(),
+        utc: formattedUTC,
       });
     } else {
       res.json({ error: "Invalid Date" });
