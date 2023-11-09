@@ -30,7 +30,7 @@ app.get('/api/:date?', function (req, res) {
       utc: currentDate.toUTCString(),
     });
   } else {
-    const date = new Date(inputDate);
+    const date = new Date(parseInt(inputDate));
 
     if (!isNaN(date)) {
       res.json({
