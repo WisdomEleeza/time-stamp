@@ -27,37 +27,25 @@ function isValidDate(date) {
 app.get('/api/:date?', function (req, res) {
   const inputDate = req.params.date;
 
-    let isValidDate = Date.parse(input);
+  if (!inputDate) {
+    // Handle requests with an empty date parameter
+    const currentDate = new Date();
+    res.json({
+      unix: currentDate.getTime(),
+      utc: currentDate.toUTCString(),
+    });
+  } else {
+    const date = new Date(inputDate);
 
-    let isValidUnixNumber = /^[0-9]+$/.test(input)
-
-  //  c.isEmpty to check there is nothing in input
-  let isEmpty = input == "" || input == null;
-
-  //3.create another variables used in if-else
-  let unix_output = 0;
-  let utc_output  = "";
-
-  if (isValidDate) {
-    unix_output = new Date(input);
-    utc_output  = unix_output.toUTCString();
-    // valueOf used for getting a variable back to primitive type
-    return res.json({unix : unix_output.valueOf(), utc : utc_output});
+    if (isValidDate(date)) {
+      res.json({
+        unix: date.getTime(),
+        utc: date.toUTCString(),
+      });
+    } else {
+      res.json({ error: "Invalid Date" });
+    }
   }
-  else if (isNaN(isValidDate) && isValidUnixNumber) {
-    unix_output = new Date(parseInt(input));
-    utc_output  = unix_output.toUTCString();
-    return res.json({unix : unix_output.valueOf(), utc : utc_output});
-  }
-  else if (isEmpty) {
-    unix_output = new Date();
-    utc_output  = unix_output.toUTCString();
-    return res.json({unix : unix_output.valueOf(), utc : utc_output});  
-  }
-  else {
-    res.json({error: "Invalid Date"});
-  }
-
 });
 
 
