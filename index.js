@@ -18,34 +18,50 @@ app.get("/", function (req, res) {
   res.sendFile(__dirname + '/views/index.html');
 });
 
-// function isValidDate(date) {
-//   return !isNaN(date);
-// }
 
 // your first API endpoint... 
 app.get('/api/:date?', function (req, res) {
   const inputDate = req.params.date;
-  let date;
 
   if (!inputDate) {
-    date = new Date();
+    const currentDate = new Date();
+    res.json({
+      unix: currentDate.getTime(),
+      utc: currentDate.toUTCString(),
+    });
   } else {
-    if (!isNaN(inputDate)) {
-      const inputTimestamp = parseInt(inputDate);
-      date = new Date(inputTimestamp);
+    const date = new Date(inputDate);
 
-      if (date.toString() === "Invalid Date") {
-        res.json({ error: date.toString() });
-      } else {
-        res.json({ unix: date.getTime(), utc: date.toUTCString() });
-      }
+    if (!isNaN(date)) {
+      res.json({
+        unix: date.getTime(),
+        utc: date.toUTCString(),
+      });
+    } else {
+      res.json({ error: "Invalid Date" });
     }
   }
-
-  // if (!date) {
-  //   res.json({ error: "Invalid Date" });
-  // }
 });
+
+// app.get('/api/:date?', function (req, res) {
+//   const inputDate = req.params.date;
+//   let date;
+
+//   if (!inputDate) {
+//     date = new Date();
+//   } else {
+//     if (!isNaN(inputDate)) {
+//       const inputTimestamp = parseInt(inputDate);
+//       date = new Date(inputTimestamp);
+
+//       if (date.toString() === "Invalid Date") {
+//         res.json({ error: date.toString() });
+//       } else {
+//         res.json({ unix: date.getTime(), utc: date.toUTCString() });
+//       }
+//     }
+//   }
+// });
 
 
 
