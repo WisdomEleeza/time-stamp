@@ -23,64 +23,58 @@ function isValidDate(date) {
 }
 
 // your first API endpoint... 
-
 app.get('/api/:date?', function (req, res) {
   const inputDate = req.params.date;
+  let date;
 
   if (!inputDate) {
-    // Handle requests with an empty date parameter
-    const currentDate = new Date();
-    res.json({
-      unix: currentDate.getTime(),
-      utc: currentDate.toUTCString(),
-    });
+    date = new Date();
   } else {
-    const date = new Date(inputDate);
+    if (!isNaN(inputDate)) {
+      const inputTimestamp = parseInt(inputDate);
+      date = new Date(inputTimestamp);
 
-    if (isValidDate(date)) {
-      res.json({
-        unix: date.getTime(),
-        utc: date.toUTCString(),
-      });
-    } else {
-      res.json({ error: "Invalid Date" });
+      if (date.toString() === "Invalid Date") {
+        res.json({ error: date.toString() });
+      } else {
+        res.json({ unix: date.getTime(), utc: date.toUTCString() });
+      }
     }
+  }
+
+  if (!date) {
+    res.json({ error: "Invalid Date" });
   }
 });
 
-app.post('/api/1451001600000', (req, res) => {
-  return res.json({ unix: 1451001600000, utc: "Fri, 25 Dec 2015 00:00:00 GMT" })
-})
-
-
-
-
-
-
-
-
-
-  // const inputDate = req.params.date;
-  // let response = {};
 
   // if (!inputDate) {
-  //   // Handle empty date parameter
-  //   const currentTimestamp = Date.now();
-  //   const currentUTC = new Date(currentTimestamp);
-  //   response = { unix: currentTimestamp, utc: currentUTC.toUTCString() };
+  //   // Handle requests with an empty date parameter
+  //   const currentDate = new Date();
+  //   res.json({
+  //     unix: currentDate.getTime(),
+  //     utc: currentDate.toUTCString(),
+  //   });
   // } else {
-  //   // Check if the input date is valid
-  //   const timestamp = new Date(inputDate).getTime();
+  //   const date = new Date(inputDate);
 
-  //   if (!isNaN(timestamp)) {
-  //     const inputUTC = new Date(timestamp);
-  //     response = { unix: timestamp, utc: inputUTC.toUTCString() };
+  //   if (isValidDate(date)) {
+  //     res.json({
+  //       unix: date.getTime(),
+  //       utc: date.toUTCString(),
+  //     });
   //   } else {
-  //     response = { error: "Invalid Date" };
+  //     res.json({ error: "Invalid Date" });
   //   }
   // }
+// });
 
-  // res.json(response);
+// app.get('/api/1451001600000', (req, res) => {
+//   return res.json({ unix: 1451001600000, utc: "Fri, 25 Dec 2015 00:00:00 GMT" })
+// })
+
+
+
 
 
 
