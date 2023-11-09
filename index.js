@@ -20,38 +20,31 @@ app.get("/", function (req, res) {
 
 
 // your first API endpoint... 
-app.get('/api/:date?', (req, res) => {
-    let datestring = req.params.date
-    let date
+app.get('/api/:date?', function (req, res) {
+  const inputDate = req.params.date;
 
-    // if datestring is empty
-    if (!datestring) {
-        date = new Date()
-    }
-    // if datestring is not empty
-    else {
-        // if datestring is a number string
-        if (!isNaN(datestring)) {
-            // convert it to interger
-            datestring = parseInt(datestring)
-            date = new Date(datestring)
-            // res.json({datestring: datestring, typeofdatestring: typeof(datestring), date: typeof(date)})
-        }
-        // if datestring is a string like 2020-01-01
-        else {
-            date = new Date(datestring)
-            // res.json({datestring: datestring, typeofdatestring: typeof(datestring), date: typeof(date)})
-        }
-    }     
+  if (!inputDate) {
+    const currentDate = new Date();
+    res.json({
+      unix: currentDate.getTime(),
+      utc: currentDate.toUTCString(),
+    });
+  } else {
+    const date = new Date(parseInt(inputDate));
 
-    // determine if date is a string or an integer 
-    if (date.toString() === "Invalid Date") {
-        res.json({error: date.toString()})
+    if (!isNaN(date)) {
+      // Format the UTC date as "Thu, 01 Jan 1970 00:00:00 GMT"
+      const formattedUTC = date.toUTCString();
+      
+      res.json({
+        unix: date.getTime(),
+        utc: formattedUTC,
+      });
+    } else {
+      res.json({ error: "Invalid Date" });
     }
-    else {
-        res.json({Unix: date.getTime(), UTC: date.toUTCString()})
-    }
-})
+  }
+});
 
 
 
