@@ -23,9 +23,6 @@ function isValidDate(date) {
 }
 
 // your first API endpoint... 
-const express = require('express');
-const app = express();
-const port = 3000;
 
 app.get('/api/:date?', function (req, res) {
   const inputDate = req.params.date;
@@ -80,7 +77,6 @@ app.get('/api/:date?', function (req, res) {
   // }
 
   // res.json(response);
-});
 
 
 
