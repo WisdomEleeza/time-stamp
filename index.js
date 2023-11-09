@@ -20,52 +20,50 @@ app.get("/", function (req, res) {
 
 
 // your first API endpoint... 
-app.get('/api/:date?', function (req, res) {
-  const inputDate = req.params.date;
-
-  if (!inputDate) {
-    const currentDate = new Date();
-    res.json({
-      unix: currentDate.getTime(),
-      utc: currentDate.toUTCString(),
-    });
-  } else {
-    const date = new Date(parseInt(inputDate));
-
-    if (!isNaN(date)) {
-       const formattedUTC = date.toISOString()
-        .replace(/T/, ' ')
-        .replace(/\.\d{3}Z/, ' GMT');
-        
-      res.json({
-        unix: date.getTime(),
-        utc: formattedUTC,
-      });
-    } else {
-      res.json({ error: "Invalid Date" });
-    }
-  }
-});
-
 // app.get('/api/:date?', function (req, res) {
 //   const inputDate = req.params.date;
-//   let date;
 
 //   if (!inputDate) {
-//     date = new Date();
+//     const currentDate = new Date();
+//     res.json({
+//       unix: currentDate.getTime(),
+//       utc: currentDate.toUTCString(),
+//     });
 //   } else {
-//     if (!isNaN(inputDate)) {
-//       const inputTimestamp = parseInt(inputDate);
-//       date = new Date(inputTimestamp);
+//     const date = new Date(parseInt(inputDate));
 
-//       if (date.toString() === "Invalid Date") {
-//         res.json({ error: date.toString() });
-//       } else {
-//         res.json({ unix: date.getTime(), utc: date.toUTCString() });
-//       }
+//     if (!isNaN(date)) {
+//       const formattedUTC = date.toISOString()
+
+//       res.json({
+//         unix: date.getTime(),
+//         utc: formattedUTC,
+//       });
+//     } else {
+//       res.json({ error: "Invalid Date" });
 //     }
 //   }
 // });
+
+app.get('/api/:date?', function (req, res) {
+  const inputDate = req.params.date;
+  // let date;
+
+  if (!inputDate) {
+    date = new Date();
+  } else {
+    if (!isNaN(inputDate)) {
+      const inputTimestamp = parseInt(inputDate);
+      date = new Date(inputTimestamp);
+
+      if (date.toString() === "Invalid Date") {
+        res.json({ error: date.toString() });
+      } else {
+        res.json({ unix: date.getTime(), utc: date.toUTCString() });
+      }
+    }
+  }
+});
 
 
 
