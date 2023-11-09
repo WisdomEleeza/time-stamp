@@ -20,45 +20,39 @@ app.get("/", function (req, res) {
 
 
 // your first API endpoint... 
-app.get('/api/:date?', function (req, res) {
-  const inputDate = req.params.date;
+app.get('/api/:date?', (req, res) => {
+    let datestring = req.params.date
+    let date
 
-  if (!inputDate) {
-    const currentDate = new Date();
-    res.json({
-      unix: currentDate.getTime(),
-      utc: currentDate.toUTCString(),
-    });
-  } else {
-    const date = new Date(parseInt(inputDate));
-
-    if (!isNaN(date)) {
-      const formattedUTC = date.toISOString()
-
-      res.json({
-        unix: date.getTime(),
-        utc: formattedUTC,
-      });
-    } else {
-      res.json({ error: "Invalid Date" });
+    // if datestring is empty
+    if (!datestring) {
+        date = new Date()
     }
-  }
-});
+    // if datestring is not empty
+    else {
+        // if datestring is a number string
+        if (!isNaN(datestring)) {
+            // convert it to interger
+            datestring = parseInt(datestring)
+            date = new Date(datestring)
+            // res.json({datestring: datestring, typeofdatestring: typeof(datestring), date: typeof(date)})
+        }
+        // if datestring is a string like 2020-01-01
+        else {
+            date = new Date(datestring)
+            // res.json({datestring: datestring, typeofdatestring: typeof(datestring), date: typeof(date)})
+        }
+    }     
 
-app.get('/api/1451001600000', function (req, res) {
-  const inputDate = req.params.date
-  const date = new Date(parseInt(inputDate));
-
-  if (!isNaN(date)) {
-      const formattedUTC = date.toISOString()
-
-      return res.json({
-        unix: date.getTime(),
-        utc: formattedUTC,
-      });
+    // determine if date is a string or an integer 
+    if (date.toString() === "Invalid Date") {
+        res.json({error: date.toString()})
     }
+    else {
+        res.json({Unix: date.getTime(), UTC: date.toUTCString()})
+    }
+})
 
-});
 
 
 
