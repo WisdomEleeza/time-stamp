@@ -20,7 +20,7 @@ app.get("/", function (req, res) {
 
 
 // your first API endpoint... 
-app.get('/api/:date?', function (req, res) {
+app.get('/api/:date', function (req, res) {
   const inputDate = req.params.date;
 
   if (!inputDate) {
@@ -30,7 +30,7 @@ app.get('/api/:date?', function (req, res) {
       utc: currentDate.toUTCString(),
     });
   } else {
-    const date = new Date(parseInt(inputDate));
+    const date = new Date(isNaN(inputDate) ? inputDate : parseInt(inputDate));
 
     if (!isNaN(date)) {
       // Format the UTC date as "Thu, 01 Jan 1970 00:00:00 GMT"
@@ -45,7 +45,6 @@ app.get('/api/:date?', function (req, res) {
     }
   }
 });
-
 
 
 
