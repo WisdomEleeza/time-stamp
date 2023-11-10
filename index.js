@@ -20,32 +20,18 @@ app.get("/", function (req, res) {
 
 
 // your first API endpoint... 
-app.get('/api/:date', function (req, res) {
-  const inputDate = req.params.date;
-
-  if (inputDate === undefined || inputDate.trim() === "") {
-    // If inputDate is undefined, treat it as an empty date parameter
-    const currentDate = new Date();
-    res.json({
-      unix: currentDate.getTime(),
-      utc: currentDate.toUTCString(),
-    });
+app.get('/api/:date?', (req, res) => {
+  let inputDate = req.params.date ? new Date(req.params.date) : new Date();
+  if (inputDate.toString() === "Invalid Date") {
+    res.json({ error: "Invalid Date" });
   } else {
-    const date = new Date(isNaN(inputDate) ? inputDate : parseInt(inputDate));
-
-    if (!isNaN(date)) {
-      // Format the UTC date as "Thu, 01 Jan 1970 00:00:00 GMT"
-      const formattedUTC = date.toUTCString();
-      
-      res.json({
-        unix: date.getTime(),
-        utc: formattedUTC,
-      });
-    } else {
-      res.json({ error: "Invalid Date" });
-    }
+    res.json({
+      unix: inputDate.getTime(),
+      utc: inputDate.toUTCString()
+    });
   }
 });
+
 
 
 
