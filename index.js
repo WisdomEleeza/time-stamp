@@ -32,7 +32,7 @@ app.get('/api/:date', function (req, res) {
   } else {
     const date = new Date(isNaN(inputDate) ? inputDate : parseInt(inputDate));
 
-    if (!date) {
+    if (!isNaN(date)) {
       // Format the UTC date as "Thu, 01 Jan 1970 00:00:00 GMT"
       const formattedUTC = date.toUTCString();
       
