@@ -21,7 +21,14 @@ app.get("/", function (req, res) {
 
 // your first API endpoint... 
 app.get('/api/:date?', (req, res) => {
-  let inputDate = req.params.date ? new Date(req.params.date) : new Date();
+  let inputDate;
+  
+  if (req.params.date) {
+    inputDate = /^\d+$/.test(req.params.date) ? new Date(parseInt(req.params.date)) : new Date(req.params.date);
+  } else {
+    inputDate = new Date();
+  }
+
   if (inputDate.toString() === "Invalid Date") {
     res.json({ error: "Invalid Date" });
   } else {
@@ -31,6 +38,11 @@ app.get('/api/:date?', (req, res) => {
     });
   }
 });
+
+
+/**
+ A request to /api/1451001600000 should return { unix: 1451001600000, utc: "Fri, 25 Dec 2015 00:00:00 GMT" }
+ */
 
 
 
