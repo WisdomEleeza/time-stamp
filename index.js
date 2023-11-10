@@ -23,7 +23,8 @@ app.get("/", function (req, res) {
 app.get('/api/:date', function (req, res) {
   const inputDate = req.params.date;
 
-  if (!inputDate) {
+  if (inputDate === undefined) {
+    // If inputDate is undefined, treat it as an empty date parameter
     const currentDate = new Date();
     res.json({
       unix: currentDate.getTime(),
@@ -45,6 +46,7 @@ app.get('/api/:date', function (req, res) {
     }
   }
 });
+
 
 
 
